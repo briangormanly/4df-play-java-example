@@ -1,0 +1,21 @@
+<ul id="drivers">
+</ul>
+
+<script>
+
+    function getAllDrivers() {
+        $.get('/allDrivers', {}, function(res,resp, jqXHR) {
+            console.log(res);
+            var drivers = "";
+            $.each(res, function(i, driver) {
+                drivers += "<p>" + driver.current.firstName + " " + driver.current.lastName + " phone: " + driver.current.phoneNumber + "</p><hr />";
+            });
+
+            $("#drivers").html(drivers);
+        }, "json");
+    }
+
+    getAllDrivers();
+
+
+</script>

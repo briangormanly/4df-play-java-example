@@ -38,6 +38,15 @@ public class CarService extends GenericService {
         return null;
     }
 
+    public List<FdfEntity<Car>> getAllCars() {
+        List<FdfEntity<Car>> cars = new ArrayList<>();
+        cars = getAll(Car.class);
+        for(FdfEntity<Car> car: cars) {
+            car = getCarDriver(car);
+        }
+        return cars;
+    }
+
     /**
      * Returns car by id without history
      * @param id of car to retrieve
@@ -59,12 +68,7 @@ public class CarService extends GenericService {
         // get the test
         if(id >= 0) {
             car = this.getEntityById(Car.class, id);
-
-            // get the drivers
-            car.current.currentDriver = new DriverService().getDriverById(car.current.currentDriverId);
-            for(Car carHistory: car.history) {
-                carHistory.currentDriver = new DriverService().getDriverById(carHistory.currentDriverId);
-            }
+            car = getCarDriver(car);
         }
 
         return car;
@@ -119,9 +123,21 @@ public class CarService extends GenericService {
                     FdfPersistence.getInstance().selectQuery(Car.class, null, whereStatement);
 
             // create a List of entities
-            return manageReturnedEntity(returnedStates);
+            car = manageReturnedEntity(returnedStates);
+            car = getCarDriver(car);
+            return car;
         }
 
+        return car;
+    }
+
+    public FdfEntity<Car> getCarDriver(FdfEntity<Car> car) {
+        if(car != null) {
+            car.current.currentDriver = new DriverService().getDriverById(car.current.currentDriverId);
+            for(Car carHistory: car.history) {
+                carHistory.currentDriver = new DriverService().getDriverById(carHistory.currentDriverId);
+            }
+        }
         return car;
     }
 }

@@ -2,7 +2,6 @@
 #container {
     padding-top: 55px;
     box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.15);
-    height: 100vh;
 }
 #menu-bar {
 	position: fixed;
@@ -26,21 +25,6 @@
     width:60px;
 }
 
-#menu-bar #add-new{
-    margin-left: 20px;
-    padding-right: 10px;
-    z-index: 2;
-    position: relative;
-    outline: none;
-}
-
-#menu-bar #report {
-    margin-left: 5px;
-    z-index: 2;
-    position: relative;
-    outline: none;
-}
-
 #menu-bar .menu-icon {
     text-decoration: none!important;
     outline: none!important;
@@ -57,151 +41,6 @@
     margin-left: 25px;
 }
 
-
-
-/* ----- General Table ----- */
-#tamaya,
-#tamaya tr th,
-#tamaya tr td {
-    border-color: black;
-}
-
-/* ------- Row Types ------- */
-/* Used to be text color, but that just doesn't stand out as much with bootstrap-table */
-#tamaya tr.current td.ds-select {
-    background-color: #111;
-}
-#tamaya tr.history td.ds-select {
-	background-color: #999;
-}
-#tamaya tr.audit td.ds-select {
-	background-color: #DF96A1;
-}
-
-/* ----- Table Columns ----- */
-table.ds-basic td.meta-data,
-table.ds-basic th.meta-data {
+#edit-car, #edit-driver {
     display: none;
-}
-#tamaya tr.data-labels th {
-    white-space: nowrap;
-}
-#tamaya td {
-    vertical-align: middle;
-}
-
-/* ------ Table Forms ------ */
-tr.data-form > td {
-    border-left-color: transparent !important;
-    border-right-color: transparent !important;
-}
-tr.data-form input,
-tr.data-form select {
-    width: 100%;
-}
-tr.data-form > td.ds-options {
-    white-space: nowrap;
-}
-
-
-
-
-
-
-
-
-@-moz-document url-prefix() {
-  fieldset { display: table-cell; }
-}
-
-.table-striped > tbody > tr{
-    cursor: pointer;
-}
-
-.table-row-dialog{
-    background-color: rgba(244, 244, 244, 1);
-    max-width: 600px;
-    height: calc(90vh - 40px);
-    max-height: 700px;
-    position: relative;
-    margin: 20px auto;
-    width: 95%;
-    border-radius: 0.3em;
-    box-shadow: 0px 5px 11px 2px rgba(0,0,0,0.4);
-}
-
-.table-row-dialog #close{
-    right: 10px;
-    position: absolute;
-    top: 10px;
-    font-size: 20px;
-    text-shadow: 0px 2px 3px rgba(0,0,0,0.5);
-    cursor: pointer;
-}
-
-.table-row-dialog .dialog-btn-container{
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    padding: 20px;
-}
-
-.table-row-dialog h1{
-    margin: 0;
-    padding: 10px;
-    text-align: center;
-    font-size: 25px;
-}
-
-.dialog-btn{
-    padding: 10px 20px;
-    position: relative;
-    background-color: rgba(0,0,0,0.05);
-    border-radius: 0.3em;
-    margin: 0px 10px;
-    float: right;
-    outline: none;
-}
-.dialog-btn:hover{
-    text-decoration: none;
-    background-color: rgba(0,0,0,0.1);
-}
-.dialog-btn:focus{
-    text-decoration: none;
-    outline: none;
-}
-
-.dialog-content{
-    width: calc(100% - 20px);
-    height: calc(100% - 124px);
-    margin: 0px 10px;
-    position: absolute;
-    overflow-y: auto;
-    padding: 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    border-top: 1px solid rgba(0,0,0,0.1);
-    border-radius: 0.5em;
-}
-
-#dialog-wrapper{
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    background-color: rgba(0,0,0,0.6);
-    z-index: 4;
-    display: none;
-}
-
-::-WebKit-scrollbar{
-    -WebKit-appearance: none;
-    width: 7px;
-}
-
-::-WebKit-scrollbar-thumb{
-    border-radius: 4px;
-    background-color: rgba(0,0,0,.1);
-    -WebKit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }

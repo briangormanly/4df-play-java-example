@@ -21,6 +21,9 @@ import java.util.List;
  */
 public class HomeController extends Controller {
 
+    CarService cs = new CarService();
+    DriverService ds = new DriverService();
+
     /**
      * An action that renders an HTML page with a welcome message.
      * The configuration in the <code>routes</code> file means that
@@ -33,9 +36,9 @@ public class HomeController extends Controller {
     }
 
     public Result getAllCars() {
-        // get the data - note that we did not create getAll() methods in the Driver and Car Services, here we are
-        // using the FdfLib APIs directly.
-        List<FdfEntity<Car>> allCars = new GenericService().getAll(Car.class);
+        // get all cars using the getAllCars method in CarService that overrides the getAll in FdfCommonServices with
+        // custom logic
+        List<FdfEntity<Car>> allCars = cs.getAllCars();
 
         return ok(Json.toJson(allCars));
     }
@@ -43,7 +46,7 @@ public class HomeController extends Controller {
     public Result getAllDrivers() {
         // get the data - note that we did not create getAll() methods in the Driver and Car Services, here we are
         // using the FdfLib APIs directly.
-        List<FdfEntity<Driver>> allDrivers = new GenericService().getAll(Driver.class);
+        List<FdfEntity<Driver>> allDrivers = ds.getAll(Driver.class);
 
         return ok(Json.toJson(allDrivers));
     }

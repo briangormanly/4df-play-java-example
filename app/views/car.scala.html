@@ -1,0 +1,65 @@
+<div id="cars">
+</div>
+<div id="edit-car">
+    <h3>Edit Car</h3>
+    Year: <span id="ec-year"></span><br />
+    Make: <span id="ec-make"></span><br />
+    Model: <span id="ec-model"></span><br />
+    Name: <span id="ec-name"></span><br />
+    Description: <span id="ec-description"></span><br />
+    Broken: <span id="ec-broken"></span><br />
+    Occupied: <span id="ec-occupied"></span><br />
+    Working: <span id="ec-working"></span><br />
+    Driver: <span id="ec-year"></span><br />
+</div>
+
+<script>
+
+    function getAllCars() {
+        $.get('/allCars', {}, function(res,resp, jqXHR) {
+            console.log(res);
+            var cars = "";
+            $.each(res, function(i, car) {
+                cars += "<p>" + car.current.year + " " + car.current.make + " "
+                    + car.current.model + " (" + car.current.name + ")</p>";
+                cars += "<ul><li>" + car.current.description + "</li>";
+                cars += "<li>Broken? " + car.current.isInNeedOfRepair + "</li>";
+                cars += "<li>Occupied? " + car.current.isOnCall + "</li>";
+                cars += "<li>Working? " + car.current.isOutWorking + "</li>";
+                if(car.current.currentDriver != null) {
+                    cars += "<li>Driver " + car.current.currentDriver.firstName + " "
+                        + car.current.currentDriver.lastName + "</li>";
+                } else {
+                    cars += "<li>No Driver</li>";
+                }
+                cars += "</ul>";
+                if(car.history.length > 0) {
+                    $.each(car.history, function(j, historicalCar) {
+                        cars += "<div class='car-history'>historical data:<br />";
+                        cars += "Dates Active: " + historicalCar.arsd + " to: " + historicalCar.ared + "<br />";
+                        cars += "<p>" + historicalCar.year + " " + historicalCar.make + " "
+                            + historicalCar.model + " (" + historicalCar.name + ")</p>";
+                        cars += "<ul><li>" + historicalCar.description + "</li>";
+                        cars += "<li>Broken? " + historicalCar.isInNeedOfRepair + "</li>";
+                        cars += "<li>Occupied? " + historicalCar.isOnCall + "</li>";
+                        cars += "<li>Working? " + historicalCar.isOutWorking + "</li>";
+                        if(historicalCar.currentDriver != null) {
+                            cars += "<li>Driver " + historicalCar.currentDriver.firstName + " "
+                                + historicalCar.currentDriver.lastName + "</li>";
+                        } else {
+                            cars += "<li>No Driver</li>";
+                        }
+                        cars += "</ul>";
+                    });
+                }
+                cars += "<hr />";
+            });
+
+            $("#cars").html(cars);
+        }, "json");
+    }
+
+    getAllCars();
+
+
+</script>

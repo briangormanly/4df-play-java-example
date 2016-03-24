@@ -15,6 +15,18 @@
 
 <script>
 
+    function editCar(car) {
+        $("#ec-year").html(car.current.year);
+        $("#ec-make").html(car.current.make);
+        $("#ec-model").html(car.current.model);
+        $("#ec-name").html(car.current.description);
+        $("#ec-description").html(car.current.year);
+        $("#ec-broken").html(car.current.broken);
+        $("#ec-occupied").html(car.current.occupied);
+
+        $("#edit-car").show();
+    }
+
     function getAllCars() {
         $.get('/allCars', {}, function(res,resp, jqXHR) {
             console.log(res);
@@ -52,6 +64,7 @@
                         cars += "</ul>";
                     });
                 }
+                cars += "<button onclick='javascript:editCar(" + JSON.stringify(car) + ")'>Edit</button>";
                 cars += "<hr />";
             });
 

@@ -1,8 +1,10 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fdflib.model.entity.FdfEntity;
 import com.fdflib.service.GenericService;
 import models.Car;
+import models.CarMake;
 import models.Driver;
 import play.*;
 import play.libs.Json;
@@ -14,6 +16,7 @@ import views.html.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -49,6 +52,37 @@ public class HomeController extends Controller {
         List<FdfEntity<Driver>> allDrivers = ds.getAll(Driver.class);
 
         return ok(Json.toJson(allDrivers));
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result saveCar() {
+
+        JsonNode json = request().body().asJson();
+
+        if (json == null) {
+            return badRequest("Expecting Json data");
+        }
+        System.out.println(json);
+
+        // create the car
+        /*
+        Car car = new Car();
+        if(isInteger(year)) {
+            car.year = Integer.parseInt(year);
+        }
+        car.make = CarMake.valueOf(make.toUpperCase());
+        car.mod
+        */
+
+        return ok();
+    }
+
+    private Boolean isInteger(String integer) {
+        Scanner scanner = new Scanner(integer).useDelimiter("\n");
+        if(scanner.hasNextInt()){
+            return true;
+        }
+        return false;
     }
 
 }

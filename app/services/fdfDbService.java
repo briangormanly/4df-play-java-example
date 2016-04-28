@@ -78,11 +78,6 @@ public class fdfDbService {
 
         // create some default data
 
-
-
-
-
-
         Logger.info("4dfLib example:: 4dflib initialization complete..");
 
         // When the application starts, register a stop hook with the

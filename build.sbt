@@ -15,5 +15,5 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  "com.fdflib" % "4dflib" % "1.0.1-SNAPSHOT"
+  "com.fdflib" % "4dflib" % "1.0.4-SNAPSHOT"
 )

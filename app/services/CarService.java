@@ -132,9 +132,11 @@ public class CarService extends GenericService {
     }
 
     public FdfEntity<Car> getCarDriver(FdfEntity<Car> car) {
-        if(car != null) {
+        if(car != null && car.current != null) {
             car.current.currentDriver = new DriverService().getDriverById(car.current.currentDriverId);
-            for(Car carHistory: car.history) {
+        }
+        if(car != null) {
+            for (Car carHistory : car.history) {
                 carHistory.currentDriver = new DriverService().getDriverById(carHistory.currentDriverId);
             }
         }

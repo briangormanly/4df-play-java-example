@@ -15,7 +15,6 @@
 </div>
 
 <script>
-
     function editCar(car) {
         $("#ec-year").val(car.current.year);
         $("#ec-make").val(car.current.make);
@@ -48,7 +47,7 @@
 
         $.ajax({
           type: "POST",
-          url: /saveCar,
+          url: "/saveCar",
           data: data,
           success: success,
           dataType: dataType

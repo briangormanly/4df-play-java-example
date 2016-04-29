@@ -2,39 +2,44 @@
 </div>
 <div id="edit-car">
     <h3>Edit Car</h3>
-    Year: <input type="text" name="ec-year" id="ec-year"></input><br />
-    Make: <input type="text" name="ec-make" id="ec-make"></span><br />
-    Model: <input type="text" name="ec-model" id="ec-model"></span><br />
-    Name: <input type="text" name="ec-name" id="ec-name"></span><br />
-    Description: <input type="text" name="ec-description" id="ec-description"></span><br />
-    Broken: <input type="checkbox" name="ec-broken" id="ec-broken"></span><br />
-    Occupied: <input type="checkbox" name="ec-occupied" id="ec-occupied"></span><br />
-    Working: <input type="checkbox" name="ec-working" id="ec-working"></span><br />
-    Driver: <span name="ec-driver" id="ec-driver"></span><br />
-    <input type="button" value="Submit" name="ec-submit" id="ec-submit" />
+    <form name="carForm" id="carForm" method="post">
+        Year: <input type="text" name="year" id="year"></input><br />
+        Make: <input type="text" name="make" id="make"></span><br />
+        Model: <input type="text" name="model" id="model"></span><br />
+        Color: <input type="text" name="color" id="color"></span><br />
+        Name: <input type="text" name="name" id="name"></span><br />
+        Description: <input type="text" name="description" id="description"></span><br />
+        Broken: <input type="checkbox" name="isInNeedOfRepair" id="isInNeedOfRepair"></span><br />
+        Occupied: <input type="checkbox" name="isOnCall" id="isOnCall"></span><br />
+        Working: <input type="checkbox" name="isOutWorking" id="isOutWorking"></span><br />
+        Driver: <span name="driver" id="driver"></span><br />
+        <input type="hidden" name="id" id="id" />
+        <input type="button" value="Submit" name="submit" id="ec-submit" />
+    </form>
 </div>
 
 <script>
     function editCar(car) {
-        $("#ec-year").val(car.current.year);
-        $("#ec-make").val(car.current.make);
-        $("#ec-model").val(car.current.model);
-        $("#ec-name").val(car.current.name);
-        $("#ec-description").val(car.current.description);
-        $("#ec-broken").prop('checked', false);
+        $("#year").val(car.current.year);
+        $("#make").val(car.current.make);
+        $("#model").val(car.current.model);
+        $("#color").val(car.current.color);
+        $("#name").val(car.current.name);
+        $("#description").val(car.current.description);
+        $("#broken").prop('checked', false);
+        $("#id").val(car.current.id);
+
         if(car.current.isInNeedOfRepair) {
-            $("#ec-broken").prop('checked', true);
+            $("#isInNeedOfRepair").prop('checked', true);
         }
-        $("#ec-occupied").prop('checked', false);
+        $("#isOnCall").prop('checked', false);
         if(car.current.isOnCall) {
-            $("#ec-occupied").prop('checked', true);
+            $("#isOnCall").prop('checked', true);
         }
-        $("#ec-working").prop('checked', false);
+        $("#isOutWorking").prop('checked', false);
         if(car.current.isOutWorking) {
-            $("#ec-working").prop('checked', true);
+            $("#isOutWorking").prop('checked', true);
         }
-        $("#ec-occupied").html();
-        $("#ec-working").html();
 
         getAllDrivers(car.current.currentDriverId);
 
@@ -43,33 +48,35 @@
 
     $("#ec-submit").click(function () {
 
-        // i need a car here
-
         $.ajax({
-          type: "POST",
-          url: "/saveCar",
-          data: data,
-          success: success,
-          dataType: dataType
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "/saveCar",
+            data: JSON.stringify(jQuery('#carForm').serializeObject()),
+            dataType: 'json'
         });
     });
 
     function getAllDrivers(currentDriverId) {
         $.get('/allDrivers', {}, function(res,resp, jqXHR) {
             console.log(res);
-            var driverSelect = "<select name='ec-form-driver'>";
+            var driverSelect = "<select name='currentDriverId'>";
+            driverSelect += "<option value='-1'>No Driver</option>";
             $.each(res, function(i, driver) {
                 if(driver.entityId == currentDriverId) {
                     driverSelect += "<option selected>" + driver.current.firstName + " "
                         + driver.current.lastName + "</option>";
                 }
                 else {
-                    driverSelect += "<option>" + driver.current.firstName + " " + driver.current.lastName + "</option>";
+                    driverSelect += "<option value='" + driver.current.id + "'>" + driver.current.firstName + " " + driver.current.lastName + "</option>";
                 }
             });
             driverSelect += "</select>";
 
-            $("#ec-driver").html(driverSelect);
+            $("#driver").html(driverSelect);
         }, "json");
     }
 

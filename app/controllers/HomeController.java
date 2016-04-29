@@ -2,9 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fdflib.model.entity.FdfEntity;
-import com.fdflib.service.GenericService;
+import com.google.gson.Gson;
 import models.Car;
-import models.CarMake;
 import models.Driver;
 import play.*;
 import play.libs.Json;
@@ -14,7 +13,6 @@ import services.CarService;
 import services.DriverService;
 import views.html.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,6 +24,8 @@ public class HomeController extends Controller {
 
     CarService cs = new CarService();
     DriverService ds = new DriverService();
+
+    Gson gson = new Gson();
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -62,17 +62,16 @@ public class HomeController extends Controller {
         if (json == null) {
             return badRequest("Expecting Json data");
         }
+
         System.out.println(json);
 
         // create the car
-        /*
-        Car car = new Car();
-        if(isInteger(year)) {
-            car.year = Integer.parseInt(year);
+        Car car = gson.fromJson(json.toString(), Car.class);
+        FdfEntity<Car> returnedCar = cs.save(Car.class, car);
+
+        if(car != null) {
+            return ok(Json.toJson(returnedCar));
         }
-        car.make = CarMake.valueOf(make.toUpperCase());
-        car.mod
-        */
 
         return ok();
     }

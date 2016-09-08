@@ -3,7 +3,7 @@ package services;
 import com.fdflib.model.entity.FdfEntity;
 import com.fdflib.model.util.WhereClause;
 import com.fdflib.persistence.FdfPersistence;
-import com.fdflib.service.GenericService;
+import com.fdflib.service.impl.FdfCommonServices;
 import models.Car;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
  * Example FdfCommonServices (implemented by GenericService) wrapper service
  * You can create wrapper service methods here if you wish or create custom ones,
  */
-public class CarService extends GenericService {
+public class CarService extends FdfCommonServices {
 
     /**
      * Example wrapper for FdfCommonServices.save
@@ -39,10 +39,9 @@ public class CarService extends GenericService {
     }
 
     public List<FdfEntity<Car>> getAllCars() {
-        List<FdfEntity<Car>> cars = new ArrayList<>();
-        cars = getAll(Car.class);
+        List<FdfEntity<Car>> cars = getAll(Car.class);
         for(FdfEntity<Car> car: cars) {
-            car = getCarDriver(car);
+            car = this.getCarDriver(car);
         }
         return cars;
     }
@@ -68,7 +67,7 @@ public class CarService extends GenericService {
         // get the test
         if(id >= 0) {
             car = this.getEntityById(Car.class, id);
-            car = getCarDriver(car);
+            car = this.getCarDriver(car);
         }
 
         return car;
@@ -80,7 +79,7 @@ public class CarService extends GenericService {
      * @return Car without history
      */
     public Car getCarsByName(String name) {
-        FdfEntity<Car> carWithHistory = getCarByNameWithHistory(name);
+        FdfEntity<Car> carWithHistory = this.getCarByNameWithHistory(name);
         if(carWithHistory != null && carWithHistory.current != null) {
             return carWithHistory.current;
         }

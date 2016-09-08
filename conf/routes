@@ -4,6 +4,8 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
+
+# APIs
 GET     /allCars                    controllers.HomeController.getAllCars
 GET     /allDrivers                 controllers.HomeController.getAllDrivers
 

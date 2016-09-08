@@ -32,3 +32,113 @@ $.fn.serializeObject = function() {
     $.each($.map(this.serializeArray(), elementMapper), appendToResult);
     return o;
 };
+
+
+
+/* Car */
+function editCar(car) {
+    $("#year").val(car.current.year);
+    $("#make").val(car.current.make);
+    $("#model").val(car.current.model);
+    $("#color").val(car.current.color);
+    $("#name").val(car.current.name);
+    $("#description").val(car.current.description);
+    $("#broken").prop('checked', false);
+    $("#id").val(car.current.id);
+
+    if(car.current.isInNeedOfRepair) {
+        $("#isInNeedOfRepair").prop('checked', true);
+    }
+    $("#isOnCall").prop('checked', false);
+    if(car.current.isOnCall) {
+        $("#isOnCall").prop('checked', true);
+    }
+    $("#isOutWorking").prop('checked', false);
+    if(car.current.isOutWorking) {
+        $("#isOutWorking").prop('checked', true);
+    }
+
+    getAllDrivers(car.current.currentDriverId);
+
+    $("#edit-car").modal("toggle");
+
+}
+
+$("#ec-submit").click(function () {
+
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        url: "/saveCar",
+        data: JSON.stringify(jQuery('#carForm').serializeObject()),
+        dataType: 'json'
+    });
+});
+
+function getAllDrivers(currentDriverId) {
+    $.get('/allDrivers', {}, function(res,resp, jqXHR) {
+        console.log(res);
+        var driverSelect = "<select name='currentDriverId'>";
+        driverSelect += "<option value='-1'>No Driver</option>";
+        $.each(res, function(i, driver) {
+            if(driver.entityId == currentDriverId) {
+                driverSelect += "<option selected>" + driver.current.firstName + " "
+                    + driver.current.lastName + "</option>";
+            }
+            else {
+                driverSelect += "<option value='" + driver.current.id + "'>" + driver.current.firstName + " " + driver.current.lastName + "</option>";
+            }
+        });
+        driverSelect += "</select>";
+
+        $("#driver").html(driverSelect);
+    }, "json");
+}
+
+function getAllCars() {
+    $.get('/allCars', {}, function(res,resp, jqXHR) {
+        console.log(res);
+        var cars = "";
+        $.each(res, function(i, car) {
+            cars += "<p>" + car.current.year + " " + car.current.make + " "
+                + car.current.model + " (" + car.current.name + ")</p>";
+            cars += "<ul><li>" + car.current.description + "</li>";
+            cars += "<li>Broken? " + car.current.isInNeedOfRepair + "</li>";
+            cars += "<li>Occupied? " + car.current.isOnCall + "</li>";
+            cars += "<li>Working? " + car.current.isOutWorking + "</li>";
+            if(car.current.currentDriver != null) {
+                cars += "<li>Driver " + car.current.currentDriver.firstName + " "
+                    + car.current.currentDriver.lastName + "</li>";
+            } else {
+                cars += "<li>No Driver</li>";
+            }
+            cars += "</ul>";
+            if(car.history.length > 0) {
+                $.each(car.history, function(j, historicalCar) {
+                    cars += "<div class='car-history'>historical data:<br />";
+                    cars += "Dates Active: " + historicalCar.arsd + " to: " + historicalCar.ared + "<br />";
+                    cars += "<p>" + historicalCar.year + " " + historicalCar.make + " "
+                        + historicalCar.model + " (" + historicalCar.name + ")</p>";
+                    cars += "<ul><li>" + historicalCar.description + "</li>";
+                    cars += "<li>Broken? " + historicalCar.isInNeedOfRepair + "</li>";
+                    cars += "<li>Occupied? " + historicalCar.isOnCall + "</li>";
+                    cars += "<li>Working? " + historicalCar.isOutWorking + "</li>";
+                    if(historicalCar.currentDriver != null) {
+                        cars += "<li>Driver " + historicalCar.currentDriver.firstName + " "
+                            + historicalCar.currentDriver.lastName + "</li>";
+                    } else {
+                        cars += "<li>No Driver</li>";
+                    }
+                    cars += "</ul>";
+                });
+            }
+            cars += "<button type='button' class='btn btn-default btn-lg' id='editCarButton' onclick='editCar(" + JSON.stringify(car) + ");$(\"#edit-car\").modal()'>Edit</button>";
+            cars += "<hr />";
+        });
+
+        $("#cars").html(cars);
+    }, "json");
+}

@@ -15,6 +15,6 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  "com.fdflib" % "4dflib" % "1.0.4-SNAPSHOT",
+  "com.fdflib" % "4dflib" % "1.1",
   "com.google.code.gson" % "gson" % "2.4"
 )

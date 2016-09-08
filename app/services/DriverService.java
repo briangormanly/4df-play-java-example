@@ -1,15 +1,17 @@
 package services;
 
 import com.fdflib.model.entity.FdfEntity;
-import com.fdflib.service.GenericService;
+import com.fdflib.service.impl.FdfCommonServices;
 import models.Driver;
+
+import java.util.List;
 
 /**
  * Example FdfCommonServices (implemented by GenericService)
  * You can create wrapper service methods here if you wish or create custom ones
  *
  */
-public class DriverService extends GenericService {
+public class DriverService extends FdfCommonServices {
 
     /**
      * Example wrapper for FdfCommonServices.save
@@ -21,6 +23,11 @@ public class DriverService extends GenericService {
             return this.save(Driver.class, driver).current;
         }
         return null;
+    }
+
+    public List<FdfEntity<Driver>> getAllDrivers() {
+        List<FdfEntity<Driver>> drivers = getAll(Driver.class);
+        return drivers;
     }
 
     /**

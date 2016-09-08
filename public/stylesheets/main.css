@@ -1,3 +1,16 @@
+/* ------- Modal ----------- */
+.modal-header, h4, .close {
+  background-color: #5cb85c;
+  color:white !important;
+  text-align: center;
+  font-size: 30px;
+}
+.modal-footer {
+  background-color: #f9f9f9;
+}
+
+
+
 /* ------- Top Bars -------- */
 #container {
     padding-top: 55px;
@@ -39,8 +52,4 @@
     text-align: center;
     color: rgba(255,255,255,1);
     margin-left: 25px;
-}
-
-#edit-car, #edit-driver {
-    display: none;
 }

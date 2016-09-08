@@ -38,6 +38,9 @@ public class HomeController extends Controller {
         return ok(index.render("Welcome to the 4dfLib Play Example!"));
     }
 
+
+
+
     public Result getAllCars() {
         // get all cars using the getAllCars method in CarService that overrides the getAll in FdfCommonServices with
         // custom logic
@@ -49,7 +52,7 @@ public class HomeController extends Controller {
     public Result getAllDrivers() {
         // get the data - note that we did not create getAll() methods in the Driver and Car Services, here we are
         // using the FdfLib APIs directly.
-        List<FdfEntity<Driver>> allDrivers = ds.getAll(Driver.class);
+        List<FdfEntity<Driver>> allDrivers = ds.getAllDrivers();
 
         return ok(Json.toJson(allDrivers));
     }

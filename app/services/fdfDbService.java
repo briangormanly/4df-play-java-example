@@ -30,28 +30,39 @@ public class fdfDbService {
         // This code is called when the application starts.
         Logger.info("4dfLib example:: 4dflib initialization starting..");
 
-        // get the 4dflib settings singleton
-        FdfSettings fdfSettings = FdfSettings.getInstance();
-
         // Create a array that will hold the classes that make up our 4df data model
         List<Class> myModel = new ArrayList<>();
 
-        // set the database type and name and connection information
+        // get the 4dflib settings singleton
+        FdfSettings fdfSettings = FdfSettings.getInstance();
+
+        // PostgreSQL Database
         //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
         //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
-        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
-        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
-        fdfSettings.DB_ENCODING = DatabaseUtil.DatabaseEncoding.UTF8;
-        fdfSettings.DB_NAME = "4dfplayexample";
-        fdfSettings.DB_HOST = "localhost";
-        fdfSettings.DB_USER = "4dfplayexample";
-        fdfSettings.DB_PASSWORD = "4dfplayexamplepassword";
+        //fdfSettings.DB_ENCODING = DatabaseUtil.DatabaseEncoding.UTF8;
+
+        // MySQL database
+        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
+        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
+        //fdfSettings.DB_ENCODING = DatabaseUtil.DatabaseEncoding.UTF8;
 
         // root user settings are only required for initial database creation.  Once the database is created you
         // should remove this information
         //fdfSettings.DB_ROOT_USER = "postgres"; //postgres:
-        fdfSettings.DB_ROOT_USER = "root";
-        fdfSettings.DB_ROOT_PASSWORD = "";
+        //fdfSettings.DB_ROOT_USER = "root";
+        //fdfSettings.DB_ROOT_PASSWORD = "";
+
+        // database User (Not required for HSQL)
+        //fdfSettings.DB_USER = "4dfplayexample";
+        //fdfSettings.DB_PASSWORD = "4dfplayexamplepassword";
+        //fdfSettings.DB_NAME = "4dfplayexample";
+        //fdfSettings.DB_HOST = "localhost";
+
+        // root user settings are only required for initial database creation.  Once the database is created you
+        // should remove this information (Not required for HSQL)
+        //fdfSettings.DB_ROOT_USER = "postgres"; //postgres:
+        //fdfSettings.DB_ROOT_USER = "root";
+        //fdfSettings.DB_ROOT_PASSWORD = "";
 
         // set the default Tenant information
         fdfSettings.DEFAULT_TENANT_NAME = "example-tenant";
@@ -71,7 +82,7 @@ public class fdfDbService {
         FdfServices.initializeFdfDataModel(myModel);
 
         // check to see if the default data has been loaded
-        List<FdfEntity<Car>> allCarCheck = cs.getAll(Car.class);
+        List<FdfEntity<Car>> allCarCheck = cs.getAllCars();
         if(allCarCheck != null && allCarCheck.size() == 0) {
             insertSomeData();
         }

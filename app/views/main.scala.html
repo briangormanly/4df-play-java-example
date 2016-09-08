@@ -5,32 +5,80 @@
     <head>
         <title>@title</title>
         <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-        <script src="@routes.Assets.versioned("javascripts/jquery-2.1.4.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript" charset="utf-8"></script>
 
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/jquery-ui.min.css")">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
     </head>
     <body>
-        <div id="container">
+        <div id="container" class="container">
             <header id="main-header">
                 @header(title)
             </header>
+
+            <!-- modals -->
+            <div id="edit-car" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Edit Car</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="carForm" id="carForm" method="post">
+                                Year: <input type="text" name="year" id="year"></input><br />
+                                Make: <input type="text" name="make" id="make"></span><br />
+                                Model: <input type="text" name="model" id="model"></span><br />
+                                Color: <input type="text" name="color" id="color"></span><br />
+                                Name: <input type="text" name="name" id="name"></span><br />
+                                Description: <input type="text" name="description" id="description"></span><br />
+                                Broken: <input type="checkbox" name="isInNeedOfRepair" id="isInNeedOfRepair"></span><br />
+                                Occupied: <input type="checkbox" name="isOnCall" id="isOnCall"></span><br />
+                                Working: <input type="checkbox" name="isOutWorking" id="isOutWorking"></span><br />
+                                Driver: <span name="driver" id="driver"></span><br />
+                                <input type="hidden" name="id" id="id" />
+                                <input type="button" value="Submit" name="submit" id="ec-submit" />
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- end modals -->
+
             <div id="nav-pane">
-                <ul id="nav-list">
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+                    <li><a data-toggle="pill" href="#drivers">Drivers</a></li>
+                    <li><a data-toggle="pill" href="#cars">Cars</a></li>
                 </ul>
             </div>
             <div id="main-content">
                 @content
-                <div id="data">
-                    <p></p>
-                    <h2>Driver Data</h2>
-                    @driver()
-                    <h2>Car Data</h2>
-                    @car()
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <h3>HOME</h3>
+                        <p>Some content.</p>
+                    </div>
+                    <div id="drivers" class="tab-pane fade">
+                        <h3>Drivers</h3>
+                        @driver()
+                    </div>
+                    <div id="cars" class="tab-pane fade">
+                        <h3>Cars</h3>
+                        @car()
+                  </div>
                 </div>
+
             </div>
         </div>
     </body>

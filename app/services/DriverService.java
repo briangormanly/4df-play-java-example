@@ -19,6 +19,7 @@ public class DriverService extends FdfCommonServices {
      * @return saved driver
      */
     public Driver saveDriver(Driver driver) {
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         if(driver != null) {
             return this.save(Driver.class, driver).current;
         }

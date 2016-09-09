@@ -61,12 +61,12 @@ public class HomeController extends Controller {
     public Result saveCar() {
 
         JsonNode json = request().body().asJson();
+        System.out.println("____________saveCar____________________");
+        System.out.println(json);
 
         if (json == null) {
             return badRequest("Expecting Json data");
         }
-
-        System.out.println(json);
 
         // create the car
         Car car = gson.fromJson(json.toString(), Car.class);
@@ -74,6 +74,28 @@ public class HomeController extends Controller {
 
         if(car != null) {
             return ok(Json.toJson(returnedCar));
+        }
+
+        return ok();
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result saveDriver() {
+
+        JsonNode json = request().body().asJson();
+        System.out.println("___________saveDriver___________________");
+        System.out.println(json);
+
+        if (json == null) {
+            return badRequest("Expecting Json data");
+        }
+
+        // create the car
+        Driver driver = gson.fromJson(json.toString(), Driver.class);
+        FdfEntity<Driver> returnedDriver = ds.save(Driver.class, driver);
+
+        if(driver != null) {
+            return ok(Json.toJson(returnedDriver));
         }
 
         return ok();

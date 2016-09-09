@@ -33,54 +33,51 @@ $.fn.serializeObject = function() {
     return o;
 };
 
-
-
 /* Car */
 function editCar(car) {
-    $("#year").val(car.current.year);
-    $("#make").val(car.current.make);
-    $("#model").val(car.current.model);
-    $("#color").val(car.current.color);
-    $("#name").val(car.current.name);
-    $("#description").val(car.current.description);
-    $("#broken").prop('checked', false);
-    $("#id").val(car.current.id);
+    if(car != undefined) {
+        $("#year").val(car.current.year);
+        $("#make").val(car.current.make);
+        $("#model").val(car.current.model);
+        $("#color").val(car.current.color);
+        $("#name").val(car.current.name);
+        $("#description").val(car.current.description);
+        $("#broken").prop('checked', false);
+        $("#id").val(car.current.id);
 
-    if(car.current.isInNeedOfRepair) {
-        $("#isInNeedOfRepair").prop('checked', true);
-    }
-    $("#isOnCall").prop('checked', false);
-    if(car.current.isOnCall) {
-        $("#isOnCall").prop('checked', true);
-    }
-    $("#isOutWorking").prop('checked', false);
-    if(car.current.isOutWorking) {
-        $("#isOutWorking").prop('checked', true);
-    }
+        if(car.current.isInNeedOfRepair) {
+            $("#isInNeedOfRepair").prop('checked', true);
+        }
+        $("#isOnCall").prop('checked', false);
+        if(car.current.isOnCall) {
+            $("#isOnCall").prop('checked', true);
+        }
+        $("#isOutWorking").prop('checked', false);
+        if(car.current.isOutWorking) {
+            $("#isOutWorking").prop('checked', true);
+        }
 
-    getAllDrivers(car.current.currentDriverId);
+        getAllDrivers(car.current.currentDriverId);
+    }
 
     $("#edit-car").modal("toggle");
 
 }
 
-$("#ec-submit").click(function () {
 
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        url: "/saveCar",
-        data: JSON.stringify(jQuery('#carForm').serializeObject()),
-        dataType: 'json'
-    });
-});
+function editDriver(driver) {
+    if(driver != undefined) {
+        $("#fristName").val(driver.current.firstName);
+        $("#lastName").val(driver.current.lastName);
+        $("#phoneNumber").val(driver.current.phoneNumber);
+    }
+
+    $("#edit-driver").modal("toggle");
+
+}
 
 function getAllDrivers(currentDriverId) {
     $.get('/allDrivers', {}, function(res,resp, jqXHR) {
-        console.log(res);
         var driverSelect = "<select name='currentDriverId'>";
         driverSelect += "<option value='-1'>No Driver</option>";
         $.each(res, function(i, driver) {
@@ -94,13 +91,12 @@ function getAllDrivers(currentDriverId) {
         });
         driverSelect += "</select>";
 
-        $("#driver").html(driverSelect);
+        $("#driver-records").html(driverSelect);
     }, "json");
 }
 
 function getAllCars() {
     $.get('/allCars', {}, function(res,resp, jqXHR) {
-        console.log(res);
         var cars = "";
         $.each(res, function(i, car) {
             cars += "<p>" + car.current.year + " " + car.current.make + " "
@@ -139,6 +135,55 @@ function getAllCars() {
             cars += "<hr />";
         });
 
-        $("#cars").html(cars);
+        $("#car-records").html(cars);
     }, "json");
 }
+
+function getAllDrivers() {
+    $.get('/allDrivers', {}, function(res,resp, jqXHR) {
+        var drivers = "";
+        $.each(res, function(i, driver) {
+            drivers += "<p>" + driver.current.firstName + " " + driver.current.lastName + " phone: " + driver.current.phoneNumber + "</p><hr />";
+        });
+
+        $("#driver-records").html(drivers);
+    }, "json");
+}
+
+
+$(document).ready(function() {
+
+    $("#car-submit").click(function () {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "/saveCar",
+            data: JSON.stringify(jQuery('#carForm').serializeObject()),
+            dataType: 'json',
+            success:function(data) {
+                $("#edit-car").modal("toggle");
+                getAllCars();
+            }
+        });
+    });
+
+    $("#driver-submit").click(function () {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "/saveDriver",
+            data: JSON.stringify(jQuery('#driverForm').serializeObject()),
+            dataType: 'json',
+            success:function(data) {
+                $("#edit-driver").modal("toggle");
+                getAllDrivers();
+            }
+        });
+    });
+});
